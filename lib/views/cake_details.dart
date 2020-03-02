@@ -49,7 +49,7 @@ class _CakeDetails extends State<CakeDetails> {
                     RaisedButton(
                       child: Text('Add to cart'),
                       onPressed: () {
-                        _cartBloc.add(AddCake(CakeModel("fresa")));
+                        _cartBloc.add(AddCake(CakeModel("Cupcake", "fresa")));
                         Navigator.pop(context);
                       },
                       color: Colors.pink,

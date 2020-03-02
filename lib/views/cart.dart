@@ -14,73 +14,107 @@ class Cart extends StatelessWidget {
 
     return SafeArea(
       child: BlocBuilder<CartBloc, CartState>(
-        builder: (context, CartState state) {
-          if (state is CartLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is CartLoaded) {
-            final cakes = state.cart.cakes;
-            return ListView(
-              children: cakes.map((cake) {
-                return ListTile(
-                  title: Text(cake.flavor),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete_outline),
-                    onPressed: () {
-                      _cartBloc.add(RemoveCake(cake));
-                    },
-                  ),
-                );
-              }).toList(),
-            ) ;
-          } else {
-            return Center(
-              child: Text("Empty Cart ..."),
-            );
+          builder: (context, CartState state) {
+            if (state is CartLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is CartLoaded) {
+              final cakes = state.cart.cakes;
+              return ListView(
+                children: cakes.map((cake) {
+                  return Card(
+                    elevation: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 150.0,
+                              width: 150.0,
+                              child: Image(
+                                image: AssetImage('assets/cupcake.jpg'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '${cake.description}',
+                                        style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                          'Flavor: ${cake.flavor}',
+                                        style: TextStyle(
+                                          fontSize: 14.0
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.all(10.0),
+                                        child: IconButton(
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                      Text('2'),
+                                      Container(
+                                        margin: EdgeInsets.all(10.0),
+                                        child: IconButton(
+                                          icon: Icon(Icons.keyboard_arrow_up),
+                                          onPressed: () {},
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(right: 10.0),
+                              child: FlatButton(
+                                child: Icon(Icons.delete_outline),
+                                onPressed: () {
+                                  _cartBloc.add(RemoveCake(cake));
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ) ;
+            } else {
+              return Center(
+                child: Text("Empty Cart ..."),
+              );
+            }
           }
-        }
       ),
     );
   }
 }
-
-// ListView(
-//        children: cart.map((item) {
-//          return ListTile(
-//            leading: Image(
-//              image: AssetImage('assets/cupcake.jpg'),
-//            ),
-//            title: Text(item.title),
-//            subtitle: Text(item.price.toString()),
-//            trailing: IconButton(
-//              icon: Icon(Icons.delete_outline),
-//              onPressed: () {
-//                showDialog(
-//                    context: context,
-//                    builder: (context) {
-//                      return AlertDialog(
-//                        title: Text("Remove"),
-//                        content: Text("Are you sure...?"),
-//                        actions: <Widget>[
-//                          FlatButton(
-//                            child: Text(
-//                                "Remove"
-//                            ),
-//                            onPressed: () {
-//                              int index = cart.indexWhere((item) => item.id == item.id);
-//                              setState(() {
-//                                cart.removeAt(index);
-//                              });
-//                              Navigator.pop(context);
-//                            },
-//                          )
-//                        ],
-//                      );
-//                    }
-//                );
-//              },
-//            ),
-//          );
-//        }).toList(),
-//      )

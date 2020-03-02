@@ -62,7 +62,7 @@ class RemoveCake extends CartEvent {
 
 class CartBloc extends Bloc<CartEvent, CartState>{
 
-  CartModel cart = CartModel(List.from([CakeModel("chocolate")]));
+  CartModel cart = CartModel(List.from([CakeModel("Cupcake", "chocolate")]));
 
   @override
   CartState get initialState => CartLoading();
@@ -97,7 +97,13 @@ class CartBloc extends Bloc<CartEvent, CartState>{
   }
 
   Stream<CartState> _mapRemoveCakeToState(RemoveCake event) async* {
-    cart.cakes.removeLast();
-    yield CartLoaded(cart);
+    if (state is CartLoaded) {
+      final id = event.cake.id;
+      final updatedCakes = cart.cakes
+          .where((cake) => cake.id != id)
+          .toList();
+      cart = CartModel(updatedCakes);
+      yield CartLoaded(cart);
+    }
   }
 }
