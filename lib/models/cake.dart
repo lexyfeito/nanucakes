@@ -20,6 +20,7 @@ class CakeModel {
   List<String> ingredients;
   String image;
   double price;
+  int qty;
 
   CakeModel(
       {
@@ -28,7 +29,8 @@ class CakeModel {
         this.flavor,
         this.ingredients,
         this.image,
-        this.price
+        this.price,
+        this.qty
       }) {
     if (this._id == null) {
       var uuid = new Uuid();

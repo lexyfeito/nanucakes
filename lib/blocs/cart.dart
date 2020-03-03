@@ -62,6 +62,9 @@ class RemoveCake extends CartEvent {
 
 class CartBloc extends Bloc<CartEvent, CartState>{
 
+  double subTotal = 0;
+  double taxes = 0;
+  double total = 0;
   CartModel cart = CartModel([]);
 
   @override
@@ -92,6 +95,7 @@ class CartBloc extends Bloc<CartEvent, CartState>{
   Stream<CartState> _mapAddCakeToState(AddCake event) async* {
     if (state is CartLoaded) {
       cart.cakes.add(event.cake);
+      calculateTotal();
       yield CartLoaded(cart);
     }
   }
@@ -103,7 +107,19 @@ class CartBloc extends Bloc<CartEvent, CartState>{
           .where((cake) => cake.id != id)
           .toList();
       cart = CartModel(updatedCakes);
+      calculateTotal();
       yield CartLoaded(cart);
     }
+  }
+
+  calculateTotal() {
+    subTotal = 0;
+    if (cart.cakes.isNotEmpty) {
+      cart.cakes.forEach((cake) {
+        subTotal += cake.price;
+      });
+    }
+    taxes = (subTotal * 0.07).roundToDouble();
+    total = subTotal + taxes;
   }
 }

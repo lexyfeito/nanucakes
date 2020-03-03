@@ -17,6 +17,7 @@ class CartItem extends StatefulWidget {
 class _CartItem extends State<CartItem> {
 
   final CakeModel cake;
+  CartBloc _cartBloc;
   int _count = 1;
 
   _CartItem(this.cake);
@@ -24,7 +25,7 @@ class _CartItem extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
 
-    final _cartBloc = BlocProvider.of<CartBloc>(context);
+    _cartBloc = BlocProvider.of<CartBloc>(context);
 
     return Card(
       elevation: 4,
@@ -110,10 +111,14 @@ class _CartItem extends State<CartItem> {
   _upCount() {
     if (_count == 10) return;
     setState(() => _count++);
+    cake.qty = _count;
+    _cartBloc.calculateTotal();
   }
 
   _downCount() {
     if (_count == 1) return;
     setState(() => _count--);
+    cake.qty = _count;
+    _cartBloc.calculateTotal();
   }
 }

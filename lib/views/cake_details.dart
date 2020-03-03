@@ -63,24 +63,34 @@ class _CakeDetails extends State<CakeDetails> {
                       'Price: ${cake.price}'
                   ),
                 ),
-                DropdownButton(
-                  iconSize: 24,
-                  elevation: 16,
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
+                Container(
+                  margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                          "Select Flavor: "
+                      ),
+                      DropdownButton(
+                        iconSize: 24,
+                        elevation: 16,
+                        underline: Container(
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (selected) {
+                          selectedFlavor = selected;
+                          setState(() => selectedFlavor);
+                        },
+                        value: selectedFlavor,
+                        items: cake.flavors.map((flavor) {
+                          return DropdownMenuItem(
+                            value: flavor.description,
+                            child: Text(flavor.description),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
-                  onChanged: (selected) {
-                    selectedFlavor = selected;
-                    setState(() => selectedFlavor);
-                  },
-                  value: selectedFlavor,
-                  items: cake.flavors.map((flavor) {
-                    return DropdownMenuItem(
-                      value: flavor.description,
-                      child: Text(flavor.description),
-                    );
-                  }).toList(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +100,8 @@ class _CakeDetails extends State<CakeDetails> {
                       onPressed: () {
                         var cakeModel = CakeModel(
                             description: cake.description,
-                            flavor: selectedFlavor
+                            flavor: selectedFlavor,
+                            price: cake.price
                         );
                         cakeModel.id = cake.id;
                         _cartBloc.add(

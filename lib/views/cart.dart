@@ -28,11 +28,35 @@ class Cart extends StatelessWidget {
                 );
               }
 
-              return ListView(
-                children: cakes.map((cake) {
-                  return CartItem(cake);
-                }).toList(),
-              ) ;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Card(
+                    child: Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                                "Subtotal: \$${_cartBloc.subTotal}"
+                            ),
+                            Text(
+                                "Taxes: \$${_cartBloc.taxes}"
+                            ),
+                            Text("Total: \$${_cartBloc.total}"),
+                          ],
+                        )
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView(
+                      children: cakes.map((cake) {
+                        return CartItem(cake);
+                      }).toList(),
+                    ),
+                  )
+                ],
+              );
             } else {
               return Center(
                 child: Text("Empty Cart ..."),
