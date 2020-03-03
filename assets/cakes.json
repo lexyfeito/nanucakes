@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "description": "Cake cake",
+    "ingredients": ["sugar"],
+    "flavors": ["chocolate", "strawberry"],
+    "image": "assets/cupcake.jpg",
+    "price": 10.59
+  }
+]

@@ -62,7 +62,7 @@ class RemoveCake extends CartEvent {
 
 class CartBloc extends Bloc<CartEvent, CartState>{
 
-  CartModel cart = CartModel(List.from([CakeModel("Cupcake", "chocolate")]));
+  CartModel cart = CartModel([]);
 
   @override
   CartState get initialState => CartLoading();

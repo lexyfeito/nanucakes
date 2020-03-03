@@ -5,14 +5,34 @@ import 'package:nanu_cakes/blocs/cart.dart';
 import 'package:nanu_cakes/models/cake.dart';
 
 class CakeDetails extends StatefulWidget {
+
+  final CakeModel cake;
+
+  CakeDetails(this.cake);
+
   @override
-  State<StatefulWidget> createState() => _CakeDetails();
+  State<StatefulWidget> createState() => _CakeDetails(cake);
 }
 
 class _CakeDetails extends State<CakeDetails> {
+
+  final CakeModel cake;
+
+  _CakeDetails(this.cake);
+
+  String selectedFlavor;
+
+  @override
+  void initState() {
+    super.initState();
+    if (cake.flavors.isNotEmpty) {
+      selectedFlavor = cake.flavors[0].description;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
     final _cartBloc = BlocProvider.of<CartBloc>(context);
 
     return Scaffold(
@@ -24,13 +44,13 @@ class _CakeDetails extends State<CakeDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image(
-                  image: AssetImage('assets/cupcake.jpg'),
+                  image: AssetImage(cake.image),
                   fit: BoxFit.fill,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
-                    "Delicious cupcakes",
+                    cake.description,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0
@@ -40,8 +60,27 @@ class _CakeDetails extends State<CakeDetails> {
                 Container(
                   margin: EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
-                      'Price: 2.00'
+                      'Price: ${cake.price}'
                   ),
+                ),
+                DropdownButton(
+                  iconSize: 24,
+                  elevation: 16,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: (selected) {
+                    selectedFlavor = selected;
+                    setState(() => selectedFlavor);
+                  },
+                  value: selectedFlavor,
+                  items: cake.flavors.map((flavor) {
+                    return DropdownMenuItem(
+                      value: flavor.description,
+                      child: Text(flavor.description),
+                    );
+                  }).toList(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +88,14 @@ class _CakeDetails extends State<CakeDetails> {
                     RaisedButton(
                       child: Text('Add to cart'),
                       onPressed: () {
-                        _cartBloc.add(AddCake(CakeModel("Cupcake", "fresa")));
+                        var cakeModel = CakeModel(
+                            description: cake.description,
+                            flavor: selectedFlavor
+                        );
+                        cakeModel.id = cake.id;
+                        _cartBloc.add(
+                            AddCake(cakeModel)
+                        );
                         Navigator.pop(context);
                       },
                       color: Colors.pink,

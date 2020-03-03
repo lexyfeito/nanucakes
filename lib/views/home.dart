@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nanu_cakes/components/cake_item.dart';
+import 'package:nanu_cakes/models/cake.dart';
 import 'package:nanu_cakes/views/cake_details.dart';
 
 class Home extends StatefulWidget {
@@ -8,48 +11,32 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+
+  List cakes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getCakes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        width: double.infinity,
-                        height: 300.0,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CakeDetails()));
-                          },
-                          child: Card(
-                            semanticContainer: true,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 5,
-                            margin: EdgeInsets.all(10),
-                            child: Image(
-                              image: AssetImage('assets/cupcake.jpg'),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-          );
-        },
-      ),
+      child: ListView(
+        children: cakes.map((cake) {
+          return CakeItem(cake);
+        }).toList(),
+      )
     );
+  }
+
+  _getCakes() async {
+    String data = await DefaultAssetBundle.of(context).loadString("assets/cakes.json");
+    final List<dynamic> jsonResult = json.decode(data);
+    final cakesModel = jsonResult.map((result) => CakeModel.fromJson(result)).toList();
+    setState(() {
+      cakes = cakesModel;
+    });
   }
 }
