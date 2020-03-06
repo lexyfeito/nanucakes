@@ -1,5 +1,3 @@
-import 'package:uuid/uuid.dart';
-
 class CakeFlavorModel {
   String description;
 
@@ -13,7 +11,7 @@ class CakeFlavorModel {
 }
 
 class CakeModel {
-  String _id;
+  String id;
   String description;
   List<CakeFlavorModel> flavors;
   String flavor;
@@ -24,6 +22,7 @@ class CakeModel {
 
   CakeModel(
       {
+        this.id,
         this.description,
         this.flavors,
         this.flavor,
@@ -31,22 +30,12 @@ class CakeModel {
         this.image,
         this.price,
         this.qty
-      }) {
-    if (this._id == null) {
-      var uuid = new Uuid();
-      this._id = uuid.v1();
-    }
-  }
-
-  set id(value) {
-    this._id = value;
-  }
-
-  String get id => this._id;
+      });
 
   factory CakeModel.fromJson(Map<String, dynamic> parsedJson) {
     final List<dynamic> flavors = parsedJson["flavors"];
     return CakeModel(
+      id: parsedJson['id'],
       description: parsedJson["description"],
       flavors: flavors.map((item) => CakeFlavorModel(description: item)).toList(),
       flavor: parsedJson["flavor"],

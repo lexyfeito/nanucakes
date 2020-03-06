@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanu_cakes/models/cake.dart';
-import 'package:nanu_cakes/blocs/cart.dart';
 import 'package:nanu_cakes/views/cake_details.dart';
 
 class CakeItem extends StatelessWidget {

@@ -18,7 +18,6 @@ class _CartItem extends State<CartItem> {
 
   final CakeModel cake;
   CartBloc _cartBloc;
-  int _count = 1;
 
   _CartItem(this.cake);
 
@@ -41,7 +40,7 @@ class _CartItem extends State<CartItem> {
                 height: 150.0,
                 width: 150.0,
                 child: Image(
-                  image: AssetImage('assets/cupcake.jpg'),
+                  image: AssetImage(cake.image),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -79,7 +78,7 @@ class _CartItem extends State<CartItem> {
                             onTap: () => _downCount(),
                           ),
                         ),
-                        Text('$_count'),
+                        Text('${cake.qty}'),
                         Container(
                             margin: EdgeInsets.all(10.0),
                             child: GestureDetector(
@@ -109,16 +108,14 @@ class _CartItem extends State<CartItem> {
   }
 
   _upCount() {
-    if (_count == 10) return;
-    setState(() => _count++);
-    cake.qty = _count;
-    _cartBloc.calculateTotal();
+    if (cake.qty == 10) return;
+    cake.qty++;
+    _cartBloc.add(CalculateTotal());
   }
 
   _downCount() {
-    if (_count == 1) return;
-    setState(() => _count--);
-    cake.qty = _count;
-    _cartBloc.calculateTotal();
+    if (cake.qty == 1) return;
+    cake.qty--;
+    _cartBloc.add(CalculateTotal());
   }
 }

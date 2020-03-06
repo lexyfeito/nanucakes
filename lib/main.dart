@@ -52,7 +52,7 @@ class _Main extends State<Main> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nanulishus"),
+        title: Text("Cheat Day"),
       ),
       body: views.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

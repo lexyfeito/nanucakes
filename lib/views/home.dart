@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nanu_cakes/components/cake_item.dart';
 import 'package:nanu_cakes/models/cake.dart';
-import 'package:nanu_cakes/views/cake_details.dart';
 
 class Home extends StatefulWidget {
   @override

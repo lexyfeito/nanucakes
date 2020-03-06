@@ -13,29 +13,7 @@ class Settings extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<CounterBloc, int>(
         builder: (context, count) {
-          return Column(
-            children: <Widget>[
-              Text(count.toString()),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0),
-                child: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () {
-                    _counterBloc.add(CounterEvent.increment);
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0),
-                child: FloatingActionButton(
-                  child: Icon(Icons.remove),
-                  onPressed: () {
-                    _counterBloc.add(CounterEvent.decrement);
-                  },
-                ),
-              ),
-            ],
-          );
+          return Center();
         },
       ),
     );

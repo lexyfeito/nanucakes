@@ -60,11 +60,10 @@ class RemoveCake extends CartEvent {
   String toString() => 'RemoveCake { todo: $cake }';
 }
 
+class CalculateTotal extends CartEvent {}
+
 class CartBloc extends Bloc<CartEvent, CartState>{
 
-  double subTotal = 0;
-  double taxes = 0;
-  double total = 0;
   CartModel cart = CartModel([]);
 
   @override
@@ -78,12 +77,13 @@ class CartBloc extends Bloc<CartEvent, CartState>{
       yield* _mapAddCakeToState(event);
     } else if (event is RemoveCake) {
       yield* _mapRemoveCakeToState(event);
+    } else if (event is CalculateTotal) {
+      yield* _mapCalculateTotalToState(event);
     }
   }
 
   Stream<CartState> _mapLoadCartToState() async* {
     try {
-      // final cart = await this.todosRepository.loadTodos();
       yield CartLoaded(
         cart,
       );
@@ -93,33 +93,29 @@ class CartBloc extends Bloc<CartEvent, CartState>{
   }
 
   Stream<CartState> _mapAddCakeToState(AddCake event) async* {
-    if (state is CartLoaded) {
+    final index = cart.cakes.indexWhere((item) => item.id == event.cake.id && item.flavor == event.cake.flavor);
+    if (index != -1) {
+      cart.cakes[index].qty++;
+    } else {
       cart.cakes.add(event.cake);
-      calculateTotal();
-      yield CartLoaded(cart);
     }
+    yield CartLoaded(cart);
   }
 
   Stream<CartState> _mapRemoveCakeToState(RemoveCake event) async* {
-    if (state is CartLoaded) {
-      final id = event.cake.id;
-      final updatedCakes = cart.cakes
-          .where((cake) => cake.id != id)
-          .toList();
-      cart = CartModel(updatedCakes);
-      calculateTotal();
-      yield CartLoaded(cart);
+    final id = event.cake.id;
+    final flavor = event.cake.flavor;
+    final index = cart.cakes.indexWhere((cake) => cake.id == id && cake.flavor == flavor);
+    if (index != -1) {
+      cart.cakes.removeAt(index);
+      yield CartLoading();
+      yield CartLoaded(CartModel(cart.cakes));
     }
   }
 
-  calculateTotal() {
-    subTotal = 0;
-    if (cart.cakes.isNotEmpty) {
-      cart.cakes.forEach((cake) {
-        subTotal += cake.price;
-      });
-    }
-    taxes = (subTotal * 0.07).roundToDouble();
-    total = subTotal + taxes;
+  Stream<CartState> _mapCalculateTotalToState(CalculateTotal event) async* {
+    cart = CartModel(cart.cakes);
+    yield CartLoading();
+    yield CartLoaded(cart);
   }
 }

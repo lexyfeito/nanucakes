@@ -33,6 +33,7 @@ class _CakeDetails extends State<CakeDetails> {
 
   @override
   Widget build(BuildContext context) {
+
     final _cartBloc = BlocProvider.of<CartBloc>(context);
 
     return Scaffold(
@@ -41,79 +42,84 @@ class _CakeDetails extends State<CakeDetails> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Image(
                   image: AssetImage(cake.image),
                   fit: BoxFit.fill,
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                  child: Text(
-                    cake.description,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                  child: Text(
-                      'Price: ${cake.price}'
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                  child: Row(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text(
-                          "Select Flavor: "
-                      ),
-                      DropdownButton(
-                        iconSize: 24,
-                        elevation: 16,
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                        child: Text(
+                          cake.description,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0
+                          ),
                         ),
-                        onChanged: (selected) {
-                          selectedFlavor = selected;
-                          setState(() => selectedFlavor);
-                        },
-                        value: selectedFlavor,
-                        items: cake.flavors.map((flavor) {
-                          return DropdownMenuItem(
-                            value: flavor.description,
-                            child: Text(flavor.description),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                        child: Text(
+                            'Price: ${cake.price}'
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                                "Select Flavor: "
+                            ),
+                            DropdownButton(
+                              iconSize: 24,
+                              elevation: 16,
+                              underline: Container(
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (selected) {
+                                selectedFlavor = selected;
+                                setState(() => selectedFlavor);
+                              },
+                              value: selectedFlavor,
+                              items: cake.flavors.map((flavor) {
+                                return DropdownMenuItem(
+                                  value: flavor.description,
+                                  child: Text(flavor.description),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        child: Text('Add to cart'),
+                        onPressed: () {
+                          var cakeModel = CakeModel(
+                              id: cake.id,
+                              description: cake.description,
+                              flavor: selectedFlavor,
+                              price: cake.price,
+                              image: cake.image,
+                              qty: 1
                           );
-                        }).toList(),
+                          _cartBloc.add(
+                              AddCake(cakeModel)
+                          );
+                          Navigator.pop(context);
+                        },
+                        color: Colors.pink,
+                        textColor: Colors.white,
                       ),
                     ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text('Add to cart'),
-                      onPressed: () {
-                        var cakeModel = CakeModel(
-                            description: cake.description,
-                            flavor: selectedFlavor,
-                            price: cake.price
-                        );
-                        cakeModel.id = cake.id;
-                        _cartBloc.add(
-                            AddCake(cakeModel)
-                        );
-                        Navigator.pop(context);
-                      },
-                      color: Colors.pink,
-                      textColor: Colors.white,
-                    )
-                  ],
-                ),
+                )
               ],
             ),
           ),

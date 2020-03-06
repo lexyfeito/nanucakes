@@ -1,9 +1,17 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "description": "Cake cake",
     "ingredients": ["sugar"],
-    "flavors": ["chocolate", "strawberry"],
+    "flavors": ["chocolate", "strawberry", "vanilla", "coconut"],
+    "image": "assets/cupcake.jpg",
+    "price": 10.59
+  },
+  {
+    "id": "2",
+    "description": "Flan",
+    "ingredients": ["sugar"],
+    "flavors": ["vanilla", "coconut"],
     "image": "assets/cupcake.jpg",
     "price": 10.59
   }

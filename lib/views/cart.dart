@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanu_cakes/blocs/cart.dart';
 import 'package:nanu_cakes/components/cart_item.dart';
+import 'package:nanu_cakes/views/checkout.dart';
 
 class Cart extends StatelessWidget {
 
@@ -22,14 +23,17 @@ class Cart extends StatelessWidget {
               );
             } else if (state is CartLoaded) {
               final cakes = state.cart.cakes;
+
               if (cakes.isEmpty) {
                 return Center(
                   child: Text("Empty Cart ..."),
                 );
               }
 
+              final total = state.cart.calculateTotal();
+
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Card(
                     child: Container(
@@ -38,12 +42,12 @@ class Cart extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
-                                "Subtotal: \$${_cartBloc.subTotal}"
+                                "Subtotal: \$${total.subTotal}"
                             ),
                             Text(
-                                "Taxes: \$${_cartBloc.taxes}"
+                                "Taxes: \$${total.taxes}"
                             ),
-                            Text("Total: \$${_cartBloc.total}"),
+                            Text("Total: \$${total.total}"),
                           ],
                         )
                     ),
@@ -53,6 +57,19 @@ class Cart extends StatelessWidget {
                       children: cakes.map((cake) {
                         return CartItem(cake);
                       }).toList(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: RaisedButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("CHECKOUT "),
+                          Icon(Icons.payment)
+                        ],
+                      ),
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Checkout())),
                     ),
                   )
                 ],
