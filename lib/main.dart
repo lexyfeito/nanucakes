@@ -4,6 +4,7 @@ import 'package:nanu_cakes/blocs/cart.dart';
 import 'package:nanu_cakes/blocs/counter.dart';
 import 'package:nanu_cakes/views/cart.dart';
 import 'package:nanu_cakes/views/home.dart';
+import 'package:nanu_cakes/views/login.dart';
 import 'package:nanu_cakes/views/settings.dart';
 
 void main() => runApp(
@@ -54,7 +55,8 @@ class _Main extends State<Main> {
       appBar: AppBar(
         title: Text("Cheat Day"),
       ),
-      body: views.elementAt(_selectedIndex),
+      // body: views.elementAt(_selectedIndex),
+      body: Login(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

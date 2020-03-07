@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "406313319245",
+    "firebase_url": "https://nanucakes-d264a.firebaseio.com",
+    "project_id": "nanucakes-d264a",
+    "storage_bucket": "nanucakes-d264a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406313319245:android:ca3868d6233069dd57d504",
+        "android_client_info": {
+          "package_name": "com.lfapplications.nanucakes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406313319245-je3idssga1v0t0d0h5c1ub11d0gssf39.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lfapplications.nanucakes",
+            "certificate_hash": "b15124f0cb6adfa2630db3513624594752d22e18"
+          }
+        },
+        {
+          "client_id": "406313319245-55f9huuse7cff4s6be8utudklgaa3gnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEhMcwX-oWWc72M4Ly4wAsa5QfOE31x9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406313319245-55f9huuse7cff4s6be8utudklgaa3gnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

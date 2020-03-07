@@ -1,4 +1,4 @@
-package com.nanucakes.nanu_cakes
+package com.lfapplications.nanucakes
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
